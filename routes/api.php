@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +18,4 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-Route::get("hello", '\App\Http\Controllers\UserController@index');
+Route::apiResource('users', UserController::class);

@@ -11,9 +11,9 @@ class CreateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,14 +21,13 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             //
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email'
         ];
     }
 }

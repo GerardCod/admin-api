@@ -56,7 +56,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $id): Response {
         $user = User::find($id);
-        $user->update($request->only('first_name', 'last_name', 'email'));
+        $body = $request->only('first_name', 'last_name', 'email', 'password');
+        $body["password"] = Hash::make($body['password']);
+        $user->update($body);
         return response($user, Response::HTTP_ACCEPTED);
     }
 

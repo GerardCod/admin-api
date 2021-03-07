@@ -18,4 +18,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-Route::apiResource('users', UserController::class);
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::apiResource('users', UserController::class);
+});
+

@@ -42,4 +42,22 @@ class AuthController extends Controller
 
         return response($user, Response::HTTP_CREATED);
     }
+
+    public function user(): Response
+    {
+        return response(Auth::user(), Response::HTTP_OK);
+    }
+
+    public function updateInfo(Request $request): Response
+    {
+        $authenticated_user = Auth::user();
+        $user = User::find($authenticated_user->id);
+        $user->update($request->only('first_name', 'last_name', 'email'));
+        return response($user, Response::HTTP_ACCEPTED);
+    }
+
+    public function updatePassword(Request $request): Response
+    {
+
+    }
 }

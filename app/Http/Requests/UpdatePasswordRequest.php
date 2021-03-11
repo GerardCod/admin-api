@@ -26,7 +26,7 @@ class UpdatePasswordRequest extends FormRequest
         return [
             //
             'password' => 'required',
-            'confirm_password' => 'required'
+            'confirm_password' => 'required|same:password'
         ];
     }
 }

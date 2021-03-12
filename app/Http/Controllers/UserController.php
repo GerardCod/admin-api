@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,5 +75,42 @@ class UserController extends Controller
     public function destroy(int $id): Response {
         User::destroy($id);
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Regresa la información del usuario autentificado.
+     * @return Response
+     */
+    public function user(): Response
+    {
+        return response(Auth::user(), Response::HTTP_OK);
+    }
+
+    /**
+     * Actualiza la información de un usuario.
+     * @param UpdateRequest $request
+     * @return Response
+     */
+    public function updateInfo(UpdateRequest $request): Response
+    {
+        $authenticated_user = Auth::user();
+        $user = User::find($authenticated_user->id);
+        $user->update($request->only('first_name', 'last_name', 'email'));
+        return response($user, Response::HTTP_ACCEPTED);
+    }
+
+    /**
+     * Actualiza la contraseña de un usuario.
+     * @param UpdatePasswordRequest $request
+     * @return Response
+     */
+    public function updatePassword(UpdatePasswordRequest $request): Response
+    {
+        $authenticated_user = Auth::user();
+        $user = User::find($authenticated_user->id);
+        $body = $request->only("password");
+        $body["password"] = Hash::make($body["password"]);
+        $user->update($body);
+        return response($user, Response::HTTP_ACCEPTED);
     }
 }

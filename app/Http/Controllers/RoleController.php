@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,9 +25,11 @@ class RoleController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(RoleRequest $request): Response
     {
         //
+        $role = Role::create($request->only('name'));
+        return response($role, Response::HTTP_CREATED);
     }
 
     /**
@@ -38,6 +41,8 @@ class RoleController extends Controller
     public function show(int $id): Response
     {
         //
+        $role = Role::find($id);
+        return response($role, Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -47,9 +52,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request,int $id): Response
+    public function update(RoleRequest $request,int $id): Response
     {
-        //
+        $role = Role::find($id);
+        $role->update($request->only('name'));
+        return response($role, Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -61,5 +68,7 @@ class RoleController extends Controller
     public function destroy(int $id): Response
     {
         //
+        Role::destroy($id);
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

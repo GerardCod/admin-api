@@ -21,7 +21,7 @@ class UserController extends Controller
      * @version 1.0.0
      */
     public function index(): Response {
-        return response(User::all(), Response::HTTP_OK);
+        return response(User::with('role')->paginate(), Response::HTTP_OK);
     }
 
     /**

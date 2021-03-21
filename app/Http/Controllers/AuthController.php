@@ -38,7 +38,7 @@ class AuthController extends Controller
      */
     public function register(SignupRequest $request): Response
     {
-        $body = $request->only('first_name','last_name', 'email', 'password');
+        $body = $request->only('first_name','last_name', 'email', 'password', 'role_id');
         $body['password'] = Hash::make($body['password']);
         $user = User::create($body);
 

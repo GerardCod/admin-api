@@ -95,7 +95,7 @@ class UserController extends Controller
     {
         $authenticated_user = Auth::user();
         $user = User::find($authenticated_user->id);
-        $user->update($request->only('first_name', 'last_name', 'email'));
+        $user->update($request->only('first_name', 'last_name', 'email', 'role_id'));
         return response($user, Response::HTTP_ACCEPTED);
     }
 
